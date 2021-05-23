@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@stripe/stripe-react-native": "^0.1.2",
     "react": "17.0.1",
     "react-native": "0.64.1"
   },
