@@ -12,22 +12,21 @@ import {
   StatusBar,
   StyleSheet,
 } from 'react-native';
-
-
+import { StripeProvider } from '@stripe/stripe-react-native';
+import PaymentScreen from "./screens/paymentScreen";
 
 const App = ()  => {
+  const publishableKey = "pk_test_AtN3VLAFhzbLNqf3Y9z50iNQ";
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-    </SafeAreaView>
+    <StripeProvider
+      publishableKey={publishableKey}
+    >
+      <PaymentScreen />
+    </StripeProvider>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
-    color: "#888",
-    backgroundColor: "#ffffff"
-  }
 });
 
 export default App;
