@@ -11,6 +11,7 @@ export default PaymentScreen = () => {
   const [card, setCard] = useState(CardFieldInput.Details | null);
   const { confirmPayment, handleCardAction } = useStripe()
 
+  const API_URL = "http://localhost:8000"
 
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [loading, setLoading] = useState(false);
