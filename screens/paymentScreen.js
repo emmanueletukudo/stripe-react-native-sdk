@@ -17,6 +17,7 @@ import {
         number: '4242 4242 4242 4242',
       }}
       cardStyle={{
+        marginTop: 30,
         backgroundColor: '#FFFFFF',
         textColor: '#000000',
       }}
