@@ -12,7 +12,7 @@ import {
 
     return(
         <CardField
-      postalCodeEnabled={true}
+      postalCodeEnabled={false}
       placeholder={{
         number: '4242 4242 4242 4242',
       }}
@@ -24,6 +24,7 @@ import {
         width: '100%',
         height: 50,
         marginVertical: 30,
+        marginTop: 30,
       }}
       onCardChange={(cardDetails) => {
         setCard(cardDetails);
