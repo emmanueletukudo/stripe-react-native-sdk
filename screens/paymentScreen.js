@@ -1,39 +1,71 @@
-import React, {useState} from "react";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Button, View, SafeAreaView, Text, Alert } from 'react-native';
 import {
-    CardField,
-    CardFieldInput,
-    useStripe,
-  } from '@stripe/stripe-react-native';
+  CardField,
+  CardFieldInput,
+  useStripe,
+} from '@stripe/stripe-react-native';
 
 
-  export default PaymentScreen = () => {
-    const [card, setCard] = useState(CardFieldInput.Details | null);
-    const {confirmPayment, handleCardAction} = useStripe()
+export default PaymentScreen = () => {
+  const [card, setCard] = useState(CardFieldInput.Details | null);
+  const { confirmPayment, handleCardAction } = useStripe()
 
-    return(
-        <CardField
-      postalCodeEnabled={false}
-      placeholder={{
-        number: '4242 4242 4242 4242',
-      }}
-      cardStyle={{
-        marginTop: 30,
-        backgroundColor: '#FFFFFF',
-        textColor: '#000000',
-      }}
-      style={{
-        width: '100%',
-        height: 50,
-        marginVertical: 30,
-        marginTop: 30,
-      }}
-      onCardChange={(cardDetails) => {
-        setCard(cardDetails);
-      }}
-      onFocus={(focusedField) => {
-        console.log('focusField', focusedField);
-      }}
-    />
-    )
-  }
+
+  const { initPaymentSheet, presentPaymentSheet } = useStripe();
+  const [loading, setLoading] = useState(false);
+
+  const fetchPaymentSheetParams = async () => {
+    const response = await fetch(`${API_URL}/payment-sheet`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const { paymentIntent, ephemeralKey, customer } = await response.json();
+
+    return {
+      paymentIntent,
+      ephemeralKey,
+      customer,
+    };
+  };
+
+  const initializePaymentSheet = async () => {
+    const {
+      paymentIntent,
+      ephemeralKey,
+      customer,
+    } = await fetchPaymentSheetParams();
+
+    const { error } = await initPaymentSheet({
+      customerId: customer,
+      customerEphemeralKeySecret: ephemeralKey,
+      paymentIntentClientSecret: paymentIntent,
+    });
+    if (!error) {
+      setLoading(true);
+    }
+  };
+
+  const openPaymentSheet = async () => {
+    // see below
+  };
+
+  useEffect(() => {
+    initializePaymentSheet();
+  }, []);
+
+  return (
+
+      <View>
+        <Button
+          variant="primary"
+          disabled={!loading}
+          title="Checkout"
+          onPress={openPaymentSheet}
+        />
+      </View>
+  )
+}
 

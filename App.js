@@ -12,6 +12,7 @@ import {
   StatusBar,
   StyleSheet,
 } from 'react-native';
+
 import { StripeProvider } from '@stripe/stripe-react-native';
 import PaymentScreen from "./screens/paymentScreen";
 
